@@ -1,0 +1,19 @@
+select 
+	 nvl(b.id,0),
+	 nvl(b.bl_no,' ') as bl_no,
+	 nvl(b.booking_no_id,' ') as booking_no_id,
+	 nvl(s.send_code,' ') as send_code,
+	 nvl(s.communication,' ') as communication,
+	 nvl(v.vessel,' ') as vessel,
+	 nvl(v.voyage,' ') as voyage
+	from 
+		webedi.booking b,
+		(select h.xml_file_id,h.send_code,t.communication 
+			from webedi.head_record h,webedi.t_booking_party t where h.send_code=t.booking_party_code) s,
+		webedi.vessel v,
+		webedi.xml_files x,
+		webedi.t_booking_status_latest  tbsl
+	where b.xml_file_id=x.id(+) and x.create_time >= to_date('begin_time','yyyy-MM-dd hh24:mi:ss') and x.create_time < to_date('end_time','yyyy-MM-dd hh24:mi:ss')
+		and b.xml_file_id=s.xml_file_id(+) and b.id=v.booking_id(+) and 
+		b.id =  tbsl.booking_id(+) and
+		tbsl.status_id='6'

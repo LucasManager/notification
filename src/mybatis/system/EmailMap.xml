@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmailMap">
+	<!-- 
+	<select id="getEmailList" parameterType="Email" resultType="Email">
+		select ID, ADDRESS, TITLE, STATUS, CONTENT, MAIL_TYPE,to_char(CREATEDATE,'yyyy-MM-dd  hh24:mi:ss') as CREATEDATE from T_NOTIFICATION_EMAIL WHERE 1=1
+		<if test="mail_type != 'all'">
+			AND MAIL_TYPE = #{mail_type}
+		</if>
+		<if test="address != ''">
+			AND address LIKE '%' || #{address} || '%'
+		</if>
+		<if test="state != 'all'">
+			AND status = #{status}
+		</if>
+		<if test="startdate != ''">
+			AND to_char(createdate,'yyyy-MM-dd') &gt; #{startdate}
+		</if>
+		<if test="stopdate != ''">
+			AND to_char(createdate,'yyyy-MM-dd') &lt; #{stopdate}
+		</if>
+		 order by createdate desc
+	</select>
+
+	<select id="getEmailstatusList" parameterType="Email" resultType="Email">
+		select ID, ADDRESS, TITLE, STATUS, CONTENT, TYPE,to_char(CREATEDATE,'yyyy-MM-dd  hh24:mi:ss') as CREATEDATE from T_NOTIFICATION_EMAIL WHERE ID IN
+		<foreach item="item" index="index" collection="IDS" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		 order by createdate desc
+	</select>
+	 -->
+	<select id="getSendEmailList" parameterType="Email" resultType="Email">
+		select * from T_NOTIFICATION_EMAIL WHERE STATUS = #{status} order by ADDRESS,MAIL_TYPE
+	</select>
+
+
+	<insert id="AddEmail" parameterType="Email">
+		INSERT INTO T_NOTIFICATION_EMAIL 
+		 (
+		    ID,
+		    ADDRESS,
+		    TITLE,
+		    CREATEDATE,
+		    STATUS,
+		    CONTENT,
+		    MAIL_TYPE,
+		    SENDINFO
+		 ) VALUES (
+			SEQ_T_NOTIFICATION_EMAIL.nextval,
+			#{address},
+			#{title},
+			SYSDATE,
+			#{status},
+			#{content},
+			#{mail_type},
+			#{sendinfo}
+		 )
+	</insert>
+	
+	<update id="updateEmail" parameterType="Email">
+		update T_NOTIFICATION_EMAIL
+		set status=#{status}
+		<if test="address != ''  and address != null">
+			,address=#{address}
+		</if>
+		where ID=#{id}
+	</update>
+	
+	<update id="updateEmailStatus" parameterType="Email">
+		update T_NOTIFICATION_EMAIL
+		set status=#{status},
+		sendinfo=#{sendinfo}
+		where ID IN
+		<foreach item="item" index="index" collection="IDS" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<update id="updateSendEmailStatusSent" parameterType="List">
+		update T_NOTIFICATION_EMAIL
+		set status='sent'
+		where ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<update id="updateSendEmailStatusError" parameterType="List">
+		update T_NOTIFICATION_EMAIL
+		set status='error'
+		where ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+</mapper>

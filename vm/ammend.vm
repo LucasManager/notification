@@ -1,0 +1,498 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body style="font-family:'Microsoft YaHei'!important;padding:10px">
+<span style="font-size:24px;font-weight:bold">Amend Booking</span>
+	<br/>
+	Current :<br/>
+	<table cellpadding="0" cellspacing="0" bgcolor='#F2F2F2' style="border: 2px solid #666;">
+	<tr>
+	<td style="padding:15px;border-right: 1px solid #666;">
+	<table cellpadding='5px'  cellspacing="0">
+		<tr>
+			<td style="font-weight:bold">
+				B/L#:
+			</td>
+			<td>
+				<span>
+				<u>$BLNO</u>
+				</span>
+			</td>
+			<td style="font-weight:bold">
+				REF No:
+			</td>
+			<td>
+			<span #if ($REFFERENCENO != $REFFERENCENO_1) style="color:red" #end>
+				<u>$REFFERENCENO</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				CapCd:
+			</td>
+			<td colspan="3">
+			<span #if ($CAPCODE != $CAPCODE_1) style="color:red" #end>
+				<u>$CAPCODE</u>
+			</span>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				BookingParty:
+			</td>
+			<td colspan="3">
+			<span #if ($BOOKINGPARTY != $BOOKINGPARTY_1) style="color:red" #end>
+				<u>$BOOKINGPARTY</u>
+			</span>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Vsl:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+			<span #if ($VESSEL != $VESSEL_1) style="color:red" #end>
+				<u>$VESSEL</u>
+			</span>
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Voy:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+			<span #if ($VOYAGE != $VOYAGE_1) style="color:red" #end>
+				<u>$VOYAGE</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Orig:
+			</td>
+			<td colspan="3">
+			<span #if ($ORIGN != $ORIGN_1) style="color:red" #end>
+				<u>$ORIGN</u>
+			</span>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Load:
+			</td>
+			<td colspan="3">
+			<span #if ($LOAD != $LOAD_1) style="color:red" #end>
+				<u>$LOAD</u>
+			</span>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Disc:
+			</td>
+			<td colspan="3">
+			<span #if ($DISC != $DISC_1) style="color:red" #end>
+				<u>$DISC</u>
+			</span>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Dest:
+			</td>
+			<td colspan="3">
+			<span #if ($DEST != $DEST_1) style="color:red" #end>
+				<u>$DEST</u>
+			</span>	
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				CgMode:
+			</td>
+			<td colspan="3">
+			<span #if ($CGMODE != $CGMODE_1) style="color:red" #end>
+				<u>$CGMODE</u>
+			</span>	
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				freightClause:
+			</td>
+			<td colspan="3" style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+			<span #if ($FREIGHT_CLAUSE != $FREIGHT_CLAUSE_1) style="color:red" #end>
+				<u>$FREIGHT_CLAUSE</u>
+			</span>	
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Remarks:
+			</td>
+			<td colspan="3">
+			<span #if ($REMARKS != $REMARKS_1) style="color:red" #end>
+				<u>$REMARKS</u>
+			</span>	
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	</td>
+	<td style="padding:15px">
+	<table cellpadding='5px'  cellspacing="0">
+		<tr>
+			<td style="font-weight:bold">
+				Shpr:
+			</td>
+			<td>
+			<span #if ($SHIPPER != $SHIPPER_1) style="color:red" #end>
+				<u>$SHIPPER</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Csgn:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+			<span #if ($CAPCODE != $CAPCODE_1) style="color:red" #end>
+				<u>$CAPCODE</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Ntfy:
+			</td>
+			<td>
+			<span #if ($NOTIFY != $NOTIFY_1) style="color:red" #end>
+				<u>$NOTIFY</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Mark:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+			<span #if ($MARKS != $MARKS_1) style="color:red" #end>
+				<u>$MARKS</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-weight:bold">
+				Desc:
+			</td>
+			<td>
+			<span #if ($CARGO_DESC != $CARGO_DESC_1) style="color:red" #end>
+				<u>$CARGO_DESC</u>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<table cellpadding='2px'>
+					<tr>
+						<td style="font-weight:bold">Pkgs:</td>
+						<td>
+						<span #if ($PKGS != $PKGS_1) style="color:red" #end>
+						<u>$PKGS<u>
+						</span>
+						</td>
+						<td style="font-weight:bold">Kinds:</td>
+						<td>
+						<span #if ($KINDS != $KINDS_1) style="color:red" #end>
+						<u>$KINDS</u>
+						</span>
+						</td>
+						<td style="font-weight:bold">Weight:</td>
+						<td>
+						<span #if ($WEIGHT != $WEIGHT_1) style="color:red" #end>
+						<u>$WEIGHT</u>
+						</span>
+						</td>
+						<td style="font-weight:bold">Measure:</td>
+						<td>
+						<span #if ($MEASURE != $MEASURE_1) style="color:red" #end>
+						<u>$MEASURE</u>
+						</span>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<table cellpadding=2>
+					<tr>
+						<td style="font-weight:bold">
+							ctnSizeType
+						</td>
+						<td style="font-weight:bold">
+							ctnNumbers
+						</td>
+						<td style="font-weight:bold">
+							masterBl
+						</td>
+					</tr>
+						#if ($CONTAINER == $CONTAINER_1)
+							#foreach( $CONTAINERLISTINFO in $CONTAINER.split(",")) 
+								<tr>
+									#foreach( $info in $CONTAINERLISTINFO.split(";")) 
+										<td>
+											<u>$info</u>
+										</td>
+									#end
+								</tr>
+							#end
+						#else
+							#foreach( $CONTAINERLISTINFO in $CONTAINER.split(",")) 
+								<tr>
+									#foreach( $info in $CONTAINERLISTINFO.split(";")) 
+										<td style="color:red">
+											<u>$info</u>
+										</td>
+									#end
+								</tr>
+							#end
+						#end
+				</table>
+			</td>
+		</tr>
+	</table>
+	</table>
+	<br/>
+	Last Uploaded :
+	<br/>
+	<table cellpadding="0" cellspacing="0" bgcolor='#F2F2F2' style="border: 2px solid #666;">
+	<tr>
+	<td style="padding:15px;border-right: 1px solid #666;">
+	<table cellpadding='5px'  cellspacing="0">
+		<tr>
+			<td style="font-weight:bold">
+				B/L#:
+			</td>
+			<td>
+				<u>$BLNO</u>
+			</td>
+			<td style="font-weight:bold">
+				REF No:
+			</td>
+			<td>
+				<u>$REFFERENCENO_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				CapCd:
+			</td>
+			<td colspan="3">
+				<u>$CAPCODE_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				BookingParty:
+			</td>
+			<td colspan="3">
+				<u>$BOOKINGPARTY_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Vsl:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<u>$VESSEL_1</u>
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Voy:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<u>$VOYAGE_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Orig:
+			</td>
+			<td colspan="3">
+				<u>$ORIGN_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Load:
+			</td>
+			<td colspan="3">
+				<u>$LOAD_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Disc:
+			</td>
+			<td colspan="3">
+				<u>$DISC_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Dest:
+			</td>
+			<td colspan="3">
+				<u>$DEST_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				CgMode:
+			</td>
+			<td colspan="3">
+				<u>$CGMODE_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				freightClause:
+			</td>
+			<td colspan="3" style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<u>$FREIGHT_CLAUSE_1</u>
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				
+			</td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Remarks:
+			</td>
+			<td colspan="3">
+				<u>$REMARKS_1</u>
+			</td>
+			<td></td>
+			<td></td>
+		<tr>
+	</table>
+	</td>
+	<td style="padding:15px">
+	<table cellpadding='5px'  cellspacing="0">
+		<tr>
+			<td style="font-weight:bold;font-weight:bold">
+				Shpr:
+			</td>
+			<td>
+				<u>$SHIPPER_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Csgn:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<u>$CAPCODE_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Ntfy:
+			</td>
+			<td>
+				<u>$NOTIFY_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666;font-weight:bold">
+				Mark:
+			</td>
+			<td style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<u>$MARKS_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td style="font-weight:bold">
+				Desc:
+			</td>
+			<td>
+				<u>$CARGO_DESC_1</u>
+			</td>
+		<tr>
+		<tr>
+			<td colspan=2 style="border-top: 1px solid #666;border-bottom: 1px solid #666">
+				<table cellpadding='2px'>
+					<tr>
+						<td style="font-weight:bold">Pkgs:</td>
+						<td><u>$PKGS_1</u></td>
+						<td style="font-weight:bold">Kinds:</td>
+						<td><u>$KINDS_1</u></td>
+						<td style="font-weight:bold">Weight:</td>
+						<td><u>$WEIGHT_1</u></td>
+						<td style="font-weight:bold">Measure:</td>
+						<td><u>$MEASURE_1</u></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2>
+				<table cellpadding=2>
+					<tr>
+						<td style="font-weight:bold">
+							ctnSizeType
+						</td>
+						<td style="font-weight:bold">
+							ctnNumbers
+						</td>
+						<td style="font-weight:bold">
+							masterBl
+						</td>
+					</tr>
+					#foreach( $CONTAINERLISTINFO_1 in $CONTAINER_1.split(",")) 
+						<tr>
+						#foreach( $info in $CONTAINERLISTINFO_1.split(";")) 
+							<td>
+								<u>$info</u>
+							</td>
+						#end
+						</tr>
+					#end
+				</table>
+			</td>
+		</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+</body>
+</html> 

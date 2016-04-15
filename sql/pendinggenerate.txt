@@ -1,0 +1,60 @@
+SELECT nvl(b.id,0) AS id,
+    nvl(b.bl_no,' ') as bl_no,
+    nvl(b.booking_no_id,' ') as booking_no_id,
+    nvl(d.send_code,' ') as send_code,
+    nvl(e.communication,' ') as communication,
+    nvl(f.vessel,' ') as vessel,
+    nvl(f.voyage,' ') as voyage,
+    nvl(webedi.concat_pending_reasons(
+    (
+        SELECT
+            MAX(id) AS id
+        FROM
+            webedi.t_booking_status
+        WHERE
+            status_id='2'
+        AND booking_id=b.id)),' ') AS comments 
+ FROM
+    (
+        SELECT
+            MAX(id)AS id
+        FROM
+            webedi.booking a
+        WHERE
+            a.xml_file_id IN
+            (
+                SELECT
+                    id
+                FROM
+                    webedi.xml_files
+                WHERE
+                    create_time >= to_date('begin_time','yyyy-MM-dd hh24:mi:ss') and create_time < to_date('end_time','yyyy-MM-dd hh24:mi:ss')
+                    )
+        GROUP BY
+            a.bl_no )a
+ LEFT JOIN 
+    webedi.booking b
+ ON
+    a.id = b.id
+ LEFT JOIN 
+    webedi.xml_files c 
+ ON
+    b.xml_file_id = c.id
+ LEFT JOIN
+    webedi.head_record d
+ ON
+    b.xml_file_id = d.xml_file_id
+ LEFT JOIN
+    webedi.t_booking_party e
+ ON
+    d.send_code = e.booking_party_code
+ LEFT JOIN
+    webedi.vessel f
+ ON
+    a.id = f.booking_id
+ LEFT JOIN
+    webedi.T_Booking_status_latest g
+ ON
+    a.id = g.booking_id
+ WHERE
+    g.status_id = '2'

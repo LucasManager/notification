@@ -1,0 +1,24 @@
+select 
+                a.id,
+		nvl(b.bl_no,0) as blno,
+		nvl(b.booking_no_id,' ') as referenceNo,
+		nvl(d.send_code,' ') as bookingPartyCode , 
+		nvl(f.vessel,' ') as vessel , 
+		nvl(f.voyage,' ') as voyage , 
+		nvl(g.communication,' ') as communication
+	from    
+	        (select max(id)as id from webedi.booking x where x.bl_no in 
+	               (select y.blnumber from t_traffic_file_log y where y.create_time >= to_date('begin_time','yyyy-MM-dd hh24:mi:ss')
+	               and y.create_time < to_date('end_time','yyyy-MM-dd hh24:mi:ss'))
+	        group by bl_no)a,
+	        webedi.booking b,
+		webedi.head_record d , 
+		webedi.xml_files e , 
+		webedi.vessel f , 
+		webedi.t_booking_party g
+        where   
+		a.id = b.id
+		and b.xml_file_id = e.id
+		and e.id = d.xml_file_id
+		and b.id = f.booking_id
+		and d.send_code = g.booking_party_code

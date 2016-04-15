@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/task
+						http://www.springframework.org/schema/task/spring-task.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util.xsd
+	">
+
+	<!-- 启用注解 -->
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.notification">
+	</context:component-scan>
+
+	<!-- 读取配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/config/database_config.properties</value>
+				<value>/config/scanconfig_config.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 加载file配置文件，获取file路径信息 -->
+	<util:properties id="propertiesMail" location="config/mail_config.properties" />
+	<util:properties id="propertiesBase" location="config/base_config.properties" />
+	
+	
+	<!-- send扫描 -->
+	<bean id="scanSend"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedule" />
+		<property name="targetMethod" value="scanSend" />
+		<!--将并发设置为false -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="triggerSend"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="scanSend" />
+		<property name="startDelay" value="${send_starttime}" />
+		<property name="repeatInterval" value="${send_intervaltime}" />
+	</bean>
+	<!-- send结束 -->
+
+	<!-- amend扫描 -->
+	<bean id="scanAmend"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedule" />
+		<property name="targetMethod" value="scanAmend" />
+		<!--将并发设置为false -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="triggerAmend"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="scanAmend" />
+		<property name="startDelay" value="${generate_starttime}" />
+		<property name="repeatInterval" value="${generate_intervaltime}" />
+	</bean>
+	<!-- amend结束 -->
+
+	<!-- pending扫描 -->
+	<bean id="scanPending"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedule" />
+		<property name="targetMethod" value="scanPending" />
+		<!--将并发设置为false -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="triggerPending"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="scanPending" />
+		<property name="startDelay" value="${generate_starttime}" />
+		<property name="repeatInterval" value="${generate_intervaltime}" />
+	</bean>
+	<!-- pending结束 -->
+
+	<!-- Confirmation扫描 -->
+	<bean id="scanConfirmation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedule" />
+		<property name="targetMethod" value="scanConfirmation" />
+		<!--将并发设置为false -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="triggerConfirmation"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="scanConfirmation" />
+		<property name="startDelay" value="${generate_starttime}" />
+		<property name="repeatInterval" value="${generate_intervaltime}" />
+	</bean>
+	<!-- Confirmation结束 -->
+
+	<!-- Error扫描 -->
+	<bean id="scanError"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedule" />
+		<property name="targetMethod" value="scanError" />
+		<!--将并发设置为false -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="triggerError"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="scanError" />
+		<property name="startDelay" value="${generate_starttime}" />
+		<property name="repeatInterval" value="${generate_intervaltime}" />
+	</bean>
+	<!-- Error结束 -->
+
+	<!-- NewBooking扫描 -->
+	<bean id="scanNewBooking"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedule" />
+		<property name="targetMethod" value="scanNewBooking" />
+		<!--将并发设置为false -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="triggerNewBooking"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="scanNewBooking" />
+		<property name="startDelay" value="${generate_starttime}" />
+		<property name="repeatInterval" value="${generate_intervaltime}" />
+	</bean>
+	<!-- NewBooking结束 -->
+
+	<!-- 总管理类如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<bean id="startQuertz"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		lazy-init="false">
+		<property name="triggers">
+			<list>
+				<!--作业调度器,list下可加入其他的调度器 -->
+				<!-- 
+				<ref bean="triggerPending" />
+				<ref bean="triggerNewBooking" />
+				<ref bean="triggerError" />
+				<ref bean="triggerAmend" />
+				<ref bean="triggerConfirmation" />
+				
+				<ref bean="triggerSend" />
+				-->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>${db_driverName}</value>
+		</property>
+		<property name="url">
+			<value>${db_url}</value>
+		</property>
+		<property name="username">
+			<value>${db_username}</value>
+		</property>
+		<property name="password">
+			<value>${db_password}</value>
+		</property>
+		<property name="maxActive">
+			<value>20</value>
+		</property>
+		<property name="maxIdle">
+			<value>15</value>
+		</property>
+		<property name="maxWait">
+			<value>60000</value>
+		</property>
+	</bean>
+
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="get*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="add*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 事物处理 -->
+	<aop:config>
+		<aop:pointcut id="pc"
+			expression="execution(* com.notification.service..*(..))" />
+		<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
+	</aop:config>
+
+	<!-- 配置mybatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></property>
+		<property name="mapperLocations" value="classpath:/mybatis/*/*.xml"></property><!-- mapper扫描 -->
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+</beans>

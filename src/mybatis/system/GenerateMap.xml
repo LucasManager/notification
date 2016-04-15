@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GenerateMap">
+    
+	<select id="getGenerateList" resultType="Map" parameterType="String">
+		${value}
+	</select>
+
+	<select id="getMailTime" resultType="Map"  parameterType="String">
+		SELECT to_char(ID) as ID,to_char(BEGIN_TIME,'yyyy-MM-dd hh24:mi:ss') as BEGIN_TIME,to_char(SYSDATE,'yyyy-MM-dd hh24:mi:ss') as END_TIME 
+		FROM T_NOTIFICATION_EMAIL_TIME  WHERE ID=( SELECT max(id) FROM T_NOTIFICATION_EMAIL_TIME where MAIL_TYPE=#{String})
+	</select>
+	
+	<insert id="addMailTime" parameterType="Map">
+		INSERT INTO T_NOTIFICATION_EMAIL_TIME (ID,BEGIN_TIME,MAIL_TYPE,DATACOUNT) 
+		values (SEQ_T_NOTIFICATION_EMAIL_TIME.nextval,to_date(#{BEGIN_TIME},'yyyy-MM-dd hh24:mi:ss'),#{MAIL_TYPE},0)
+	</insert>
+	
+	<update id="updateDatacount" parameterType="Map">
+		UPDATE T_NOTIFICATION_EMAIL_TIME SET DATACOUNT=#{DATACOUNT},END_TIME=to_date(#{END_TIME},'yyyy-MM-dd hh24:mi:ss') WHERE ID=#{ID}
+	</update>
+</mapper>

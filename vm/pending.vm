@@ -1,0 +1,41 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body background="C:\Users\Administrator\Desktop\logo.jpg">
+<br/>
+<span style="font-weight:bold;">The following Booking are pended . Please check Pending Reason </span><br/>
+<table cellpadding="5" cellspacing="0" style="border: 2px solid #666;">
+	<tr>
+		<td>
+			<span style="font-weight:bold;">B/L# :</span> $BL_NO
+		</td>
+	</tr>		
+	<tr>
+		<td>		
+			<span style="font-weight:bold;">Reference# :</span> $BOOKING_NO_ID
+		</td>
+	</tr>		
+	<tr>
+		<td>		
+			<span style="font-weight:bold;">BookingPartyCode :</span> $SEND_CODE
+		</td>
+	</tr>		
+	<tr>
+		<td>
+			<span style="font-weight:bold;">Vessel :</span> $VESSEL
+		</td>
+	</tr>		
+	<tr>
+		<td>
+			<span style="font-weight:bold;">Voyage :</span> $VOYAGE
+		</td>
+	</tr>		
+	<tr>
+		<td>
+			<span style="font-weight:bold;">PendingReason :</span> $COMMENTS
+		</td>
+	</tr>
+</table>
+</body>
+</html> 

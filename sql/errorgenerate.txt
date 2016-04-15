@@ -1,0 +1,12 @@
+select 
+nvl(t.ID,0) as id,
+nvl(t.CREATE_DATE,' ') as CREATE_DATE,
+nvl(t.ERROR_DESC,' ') as ERROR_DESC,
+nvl(t.ERROR_FILE_NAME,' ') as ERROR_FILE_NAME,
+nvl(t.IS_NOTIFY,' ') as IS_NOTIFY,
+nvl(t.MODULES,' ') as MODULES,
+nvl(t.UTD_1,' ') as UTD_1,
+nvl(t.UTD_2,' ') as UTD_2,
+nvl(p.COMMUNICATION,' ') as COMMUNICATION 
+from T_TRAFFIC_CONVERT_ERROR_LOG t left  join webedi.t_booking_party p on regexp_substr(t.ERROR_DESC, '[^#@]+',1,1)=p.BOOKING_PARTY_CODE  
+where create_time >= to_date('begin_time','yyyy-MM-dd hh24:mi:ss') and create_time < to_date('end_time','yyyy-MM-dd hh24:mi:ss')

@@ -1,0 +1,101 @@
+select 
+        nvl(a.id,0) as bookingId,
+        nvl(b.bl_no,' ') as Blno,
+        nvl(b.booking_no_id,0) as refferenceNo,
+        nvl(b.delivery_term,' ') as cgMode,
+        nvl(d.vessel,' ') as vessel,
+        nvl(d.voyage,' ') as voyage,
+        nvl(e.consignee1 || e.consignee2 || e.consignee3 || e.consignee4 || e.consignee5 
+                || e.consignee6 || e.consignee7 || e.consignee8 || e.consignee9,' ') as consignee,
+        nvl(f.notify1 || f.notify2 || f.notify3 || f.notify4 || f.notify5 || f.notify6 
+                || f.notify7 || f.notify8 || f.notify9,' ') as notify,
+        nvl(g.shipper1 || g.shipper2 || g.shipper3 || g.shipper4 || g.shipper5 || g.shipper6,' ') as shipper,
+        nvl(i.capcode,' ') as capcode,
+        nvl(i.desc_cn,' ') as bookingParty,
+        nvl(j.freight_clause_i_1,' ') as freight_clause,
+        nvl(k.remarks_1 || k.remarks_2 || k.remarks_3 || k.remarks_4 || k.remarks_5,' ') as remarks,
+        nvl((select webedi.CONCAT_CARGO_MARKS(l.id) from dual),' ') as marks,
+        nvl((select webedi.CONCAT_CARGO_DESC(l.id) from dual),' ') as cargo_desc,
+        nvl(m.place_of_receipt,' ') as orign,
+        nvl(m.load_port,' ') as load,
+        nvl(m.discharge_port ,' ')as disc,
+        nvl(m.place_of_delivery ,' ')as dest,
+        nvl(n.numbers_of_pkgs_1 ,0)as pkgs,
+        nvl(n.packages_des_1 ,' ')as kinds,
+        nvl(n.cargo_gross_wt_1 ,0)as weight,
+        nvl(n.cargo_measurement_1,0) as measure,
+        to_char(nvl((select WM_CONCAT(cast((b1.cntr_size || ' ' || b1.cntr_type || ' ' || b1.cntr_height || ';' || a1.ctn_numbers || ';' || a1.master_lcl_no)as varchar2(2000)))
+                 as container
+                from webedi.container_of_booking a1,webedi.t_ref_container_type b1   
+                where b1.isdel=0 and a1.ctn_size_type = b1.ini_cntr_code and booking_id=a.id  group by booking_id),' ')) as container,
+        nvl(p.old_id ,0)as id_1,
+        nvl(q.booking_no_id,0) as refferenceNo_1,
+        nvl(q.delivery_term,' ') as cgMode_1,
+        nvl(r.vessel,' ') as vessel_1,
+        nvl(r.voyage,' ') as voyage_1,
+        nvl(y.remarks_1 || y.remarks_2 || y.remarks_3 || y.remarks_4 || y.remarks_5,' ') as remarks_1,
+        nvl(s.consignee1 || s.consignee2 || s.consignee3 || s.consignee4 || s.consignee5 
+                || s.consignee6 || s.consignee7 || s.consignee8 || s.consignee9,' ') as consignee_1,
+        nvl(t.notify1 || t.notify2 || t.notify3 || t.notify4 || t.notify5 || t.notify6 
+                || t.notify7 || t.notify8 || t.notify9,' ') as notify_1,
+        nvl(u.shipper1 || u.shipper2 || u.shipper3 || u.shipper4 || u.shipper5 || u.shipper6 ,' ')as shipper_1,
+        nvl(w.capcode ,' ')as capcode_1,
+        nvl(w.desc_cn,' ') as bookingParty_1,
+        nvl(x.freight_clause_i_1,' ') as freight_clause_1,
+        nvl(aa.place_of_receipt ,' ')as orign_1,
+        nvl(aa.load_port,' ') as load_1,
+        nvl(aa.discharge_port,' ') as disc_1,
+        nvl(aa.place_of_delivery,' ') as dest_1,
+        nvl((select webedi.CONCAT_CARGO_MARKS(ab.id) from dual),' ') as marks_1,
+        nvl((select webedi.CONCAT_CARGO_DESC(ab.id) from dual),' ') as cargo_desc_1,
+        nvl(ab.numbers_of_pkgs_1,0) as pkgs_1,
+        nvl(ab.packages_des_1,' ') as kinds_1,
+        nvl(ab.cargo_gross_wt_1,0) as weight_1,
+        nvl(ab.cargo_measurement_1 ,0)as measure_1,
+        to_char(nvl((select  WM_CONCAT(cast((b1.cntr_size || ' ' || b1.cntr_type || ' ' || b1.cntr_height || ';' || a1.ctn_numbers || ';' || a1.master_lcl_no)as varchar2(2000)))
+                as container
+                from webedi.container_of_booking a1,webedi.t_ref_container_type b1   
+                where b1.isdel=0 and a1.ctn_size_type = b1.ini_cntr_code and booking_id=p.old_id group by booking_id),' ')) as container_1
+			from 
+ 		(
+	        (
+		        select max(id)as id from webedi.booking a where a.xml_file_id in (
+		                select id from webedi.xml_files 
+		                where create_time >= to_date('begin_time','yyyy-MM-dd hh24:mi:ss') and create_time < to_date('end_time','yyyy-MM-dd hh24:mi:ss')
+		        )group by a.bl_no
+	        )a
+        join (select * from webedi.t_booking_status_latest where status_id='23') ac on a.id=ac.booking_id
+        left join webedi.Booking b on a.id = b.id
+        left join webedi.vessel d on a.id = d.booking_id
+        left join webedi.consignee e on a.id = e.booking_id
+        left join webedi.notify_party f on a.id = f.booking_id
+        left join webedi.shipper g on a.id = g.booking_id
+        left join webedi.head_record h on b.xml_file_id = h.xml_file_id
+        left join webedi.t_booking_party i on h.send_code = i.booking_party_code
+        left join webedi.freight_clause j on a.id = j.booking_id
+        left join webedi.remarks k on a.id = k.booking_id
+        left join webedi.cargo_of_booking l on a.id = l.booking_id
+        left join webedi.ports m on a.id = m.booking_id
+        left join webedi.cargo_of_booking n on a.id = n.booking_id)
+        left join (select max(x.id) as old_id ,x.bl_no from webedi.booking x 
+        join webedi.t_booking_status y on x.id=y.booking_id 
+        where x.id != (select max(id) from webedi.booking ) and y.status_id='6'
+			  and bl_no in (
+        select bl_no from webedi.booking a 
+            where a.xml_file_id in (
+              select id from webedi.xml_files 
+							where create_time >= to_date('begin_time','yyyy-MM-dd hh24:mi:ss') and create_time < to_date('end_time','yyyy-MM-dd hh24:mi:ss')))
+        group by bl_no)p 
+        on b.bl_no = p.bl_no
+        left join webedi.booking q on p.old_id = q.id
+        left join webedi.vessel r on p.old_id = r.booking_id
+        left join webedi.consignee s on p.old_id = s.booking_id
+        left join webedi.notify_party t on p.old_id = t.booking_id
+        left join webedi.shipper u on p.old_id = u.booking_id
+        left join webedi.head_record v on q.xml_file_id = v.xml_file_id
+        left join webedi.t_booking_party w on v.send_code = w.booking_party_code
+        left join webedi.freight_clause x on p.old_id = x.booking_id
+        left join webedi.remarks y on p.old_id = y.booking_id
+        left join webedi.cargo_of_booking z on p.old_id = z.booking_id
+        left join webedi.ports aa on p.old_id = aa.booking_id
+        left join webedi.cargo_of_booking ab on p.old_id = ab.booking_id
